@@ -1,34 +1,59 @@
 import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
+import { ThemeProvider, CssBaseline, createTheme } from '@mui/material'
+import { Panel, PanelGroup, PanelResizeHandle } from 'react-resizable-panels'
+import WorkflowList from './components/WorkflowList'
+import ChatArea from './components/ChatArea'
+import InputArea from './components/InputArea'
+import ConversationHistory from './components/ConversationHistory'
 import './App.css'
 
-function App() {
-  const [count, setCount] = useState(0)
+const theme = createTheme({
+  palette: {
+    mode: 'dark',
+    background: {
+      default: '#1e1e1e',
+      paper: '#252525',
+    },
+  },
+})
 
+function App() {
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <div className="app-container">
+        <PanelGroup direction="horizontal">
+          {/* 左侧工作流列表 */}
+          <Panel defaultSize={20} minSize={15}>
+            <WorkflowList />
+          </Panel>
+
+          <PanelResizeHandle className="resize-handle" />
+
+          {/* 中间工作区 */}
+          <Panel defaultSize={60} minSize={30}>
+            <PanelGroup direction="vertical">
+              <Panel defaultSize={70}>
+                <ChatArea />
+              </Panel>
+              
+              <PanelResizeHandle className="resize-handle" />
+              
+              <Panel defaultSize={30}>
+                <InputArea />
+              </Panel>
+            </PanelGroup>
+          </Panel>
+
+          <PanelResizeHandle className="resize-handle" />
+
+          {/* 右侧对话历史 */}
+          <Panel defaultSize={20} minSize={15}>
+            <ConversationHistory />
+          </Panel>
+        </PanelGroup>
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+    </ThemeProvider>
   )
 }
 
