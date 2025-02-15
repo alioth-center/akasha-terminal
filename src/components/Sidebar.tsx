@@ -4,7 +4,6 @@ import {
   Avatar,
   IconButton,
   Tooltip,
-  Divider,
 } from '@mui/material'
 import {
   Book as BookIcon,
@@ -12,10 +11,16 @@ import {
   Share as ShareIcon,
   Upload as UploadIcon,
   Settings as SettingsIcon,
-  DarkMode as DarkModeIcon,
+  ChatBubble as ChatBubbleIcon,
+  Article as ArticleIcon,
 } from '@mui/icons-material'
 
-const Sidebar: FC = () => {
+interface SidebarProps {
+  displayMode: 'bubble' | 'document'
+  onDisplayModeChange: (mode: 'bubble' | 'document') => void
+}
+
+const Sidebar: FC<SidebarProps> = ({ displayMode, onDisplayModeChange }) => {
   return (
     <Box
       sx={{
@@ -73,14 +78,14 @@ const Sidebar: FC = () => {
 
       {/* 底部设置区 */}
       <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
+        <Tooltip title={displayMode === 'bubble' ? '切换到文档模式' : '切换到气泡模式'} placement="right">
+          <IconButton onClick={() => onDisplayModeChange(displayMode === 'bubble' ? 'document' : 'bubble')}>
+            {displayMode === 'bubble' ? <ArticleIcon /> : <ChatBubbleIcon />}
+          </IconButton>
+        </Tooltip>
         <Tooltip title="设置" placement="right">
           <IconButton>
             <SettingsIcon />
-          </IconButton>
-        </Tooltip>
-        <Tooltip title="主题" placement="right">
-          <IconButton>
-            <DarkModeIcon />
           </IconButton>
         </Tooltip>
       </Box>
