@@ -3,12 +3,17 @@ import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
 import { vscDarkPlus } from 'react-syntax-highlighter/dist/esm/styles/prism'
 import { CopyButton } from './CopyButton'
 
-export function ChatMessage({ message }) {
+interface Message {
+  content: string;
+}
+
+export function ChatMessage({ message }: { message: Message }) {
   return (
     <div className="py-4">
       <ReactMarkdown
         components={{
-          code({ node, inline, className, children, ...props }) {
+          code(props: any) {
+            const { inline, className, children } = props
             const match = /language-(\w+)/.exec(className || '')
             const language = match ? match[1] : ''
             
@@ -20,7 +25,6 @@ export function ChatMessage({ message }) {
                     style={vscDarkPlus}
                     PreTag="div"
                     className="rounded-md"
-                    {...props}
                   >
                     {String(children).replace(/\n$/, '')}
                   </SyntaxHighlighter>
@@ -31,7 +35,7 @@ export function ChatMessage({ message }) {
                 </div>
               )
             }
-            return <code className={className} {...props}>{children}</code>
+            return <code className={className}>{children}</code>
           }
         }}
       >

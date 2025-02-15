@@ -1,5 +1,5 @@
-import React from 'react'
-import { TreeView, TreeItem } from '@mui/lab'
+import { SimpleTreeView } from '@mui/x-tree-view'
+import { TreeItem } from '@mui/x-tree-view/TreeItem'
 import { ExpandMore, ChevronRight, Add } from '@mui/icons-material'
 import { Box, IconButton, Typography, Paper } from '@mui/material'
 
@@ -29,7 +29,13 @@ const sampleData: WorkflowData[] = [
 
 const WorkflowList = () => {
   const renderTree = (nodes: WorkflowData) => (
-    <TreeItem key={nodes.id} nodeId={nodes.id} label={nodes.name}>
+    <TreeItem 
+      key={nodes.id} 
+      itemId={nodes.id} 
+      label={
+        <Typography variant="body2">{nodes.name}</Typography>
+      }
+    >
       {Array.isArray(nodes.children)
         ? nodes.children.map((node) => renderTree(node))
         : null}
@@ -61,12 +67,29 @@ const WorkflowList = () => {
         </IconButton>
       </Box>
       <Box sx={{ p: 2 }}>
-        <TreeView
-          defaultCollapseIcon={<ExpandMore />}
-          defaultExpandIcon={<ChevronRight />}
+        <SimpleTreeView
+          defaultExpandedItems={['1']}
+          slots={{
+            expandIcon: ChevronRight,
+            collapseIcon: ExpandMore,
+          }}
+          sx={{ 
+            '& .MuiTreeItem-root': {
+              '& .MuiTreeItem-content': {
+                padding: '4px 8px',
+                borderRadius: 1,
+                '&:hover': {
+                  backgroundColor: 'action.hover',
+                },
+                '&.Mui-selected': {
+                  backgroundColor: 'primary.main',
+                },
+              },
+            },
+          }}
         >
           {sampleData.map((item) => renderTree(item))}
-        </TreeView>
+        </SimpleTreeView>
       </Box>
     </Paper>
   )

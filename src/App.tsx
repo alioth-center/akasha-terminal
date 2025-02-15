@@ -1,4 +1,3 @@
-import React from 'react'
 import { ThemeProvider, CssBaseline, createTheme } from '@mui/material'
 import { Panel, PanelGroup, PanelResizeHandle } from 'react-resizable-panels'
 import WorkflowList from './components/WorkflowList'
@@ -14,13 +13,23 @@ const theme = createTheme({
       default: '#1e1e1e',
       paper: '#252525',
     },
+    primary: {
+      main: '#007acc',
+    },
   },
   components: {
     MuiCssBaseline: {
       styleOverrides: {
-        body: {
+        'html, body': {
           margin: 0,
           padding: 0,
+          height: '100%',
+          width: '100%',
+          overflow: 'hidden',
+        },
+        '#root': {
+          height: '100%',
+          width: '100%',
           overflow: 'hidden',
         },
       },
@@ -44,13 +53,13 @@ function App() {
           {/* 中间工作区 */}
           <Panel defaultSize={60} minSize={30}>
             <PanelGroup direction="vertical">
-              <Panel defaultSize={70}>
+              {/* 聊天区域 */}
+              <Panel defaultSize={70} minSize={30}>
                 <ChatArea />
               </Panel>
               
-              <PanelResizeHandle className="resize-handle" />
-              
-              <Panel defaultSize={30}>
+              {/* 输入区域 */}
+              <Panel defaultSize={30} minSize={20} maxSize={50}>
                 <InputArea />
               </Panel>
             </PanelGroup>

@@ -1,5 +1,13 @@
-import { Select } from './ui/Select'
-import { Slider } from './ui/Slider'
+import { Select, MenuItem, Slider } from '@mui/material'
+
+interface ChatConfigProps {
+  model: string;
+  setModel: (value: string) => void;
+  maxTokens: number;
+  setMaxTokens: (value: number) => void;
+  temperature: number;
+  setTemperature: (value: number) => void;
+}
 
 export function ChatConfig({
   model,
@@ -8,24 +16,24 @@ export function ChatConfig({
   setMaxTokens,
   temperature,
   setTemperature
-}) {
+}: ChatConfigProps) {
   return (
     <div className="flex items-center space-x-4 px-4 py-2 border-b dark:border-gray-700">
       <Select
         value={model}
-        onChange={setModel}
-        options={[
-          { label: 'GPT-3.5', value: 'gpt-3.5-turbo' },
-          { label: 'GPT-4', value: 'gpt-4' },
-        ]}
-        className="w-32"
-      />
+        onChange={(e) => setModel(e.target.value)}
+        size="small"
+        sx={{ width: 120 }}
+      >
+        <MenuItem value="gpt-3.5-turbo">GPT-3.5</MenuItem>
+        <MenuItem value="gpt-4">GPT-4</MenuItem>
+      </Select>
       
       <div className="flex items-center space-x-2">
         <span className="text-sm">最大Token:</span>
         <Slider
           value={maxTokens}
-          onChange={setMaxTokens}
+          onChange={(_, value) => setMaxTokens(value as number)}
           min={100}
           max={4000}
           step={100}
@@ -38,7 +46,7 @@ export function ChatConfig({
         <span className="text-sm">温度:</span>
         <Slider
           value={temperature}
-          onChange={setTemperature}
+          onChange={(_, value) => setTemperature(value as number)}
           min={0}
           max={2}
           step={0.1}

@@ -1,4 +1,4 @@
-import React, { FC } from 'react'
+import { FC } from 'react'
 import {
   Box,
   Paper,
@@ -10,28 +10,25 @@ import {
   IconButton,
 } from '@mui/material'
 import { Delete } from '@mui/icons-material'
+import { format } from 'date-fns'
+import { zhCN } from 'date-fns/locale'
 
 interface Conversation {
   id: string
   title: string
-  date: string
+  timestamp: Date
 }
 
 const sampleConversations: Conversation[] = [
   {
     id: '1',
-    title: '关于项目架构的讨论',
-    date: '2024-02-15',
+    title: '现代前端开发工具和最佳实践',
+    timestamp: new Date('2024-02-15T23:52:30'),
   },
   {
     id: '2',
     title: '代码优化建议',
-    date: '2024-02-14',
-  },
-  {
-    id: '3',
-    title: 'Bug修复方案',
-    date: '2024-02-13',
+    timestamp: new Date('2024-02-15T22:45:15'),
   },
 ]
 
@@ -71,7 +68,19 @@ const ConversationHistory: FC = () => {
             <ListItemButton>
               <ListItemText
                 primary={conversation.title}
-                secondary={conversation.date}
+                secondary={format(conversation.timestamp, 'yyyy-MM-dd HH:mm:ss', { locale: zhCN })}
+                primaryTypographyProps={{
+                  variant: 'body2',
+                  sx: {
+                    overflow: 'hidden',
+                    textOverflow: 'ellipsis',
+                    whiteSpace: 'nowrap',
+                  },
+                }}
+                secondaryTypographyProps={{
+                  variant: 'caption',
+                  sx: { opacity: 0.7 },
+                }}
               />
             </ListItemButton>
           </ListItem>

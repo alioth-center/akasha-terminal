@@ -1,7 +1,12 @@
 import { useState } from 'react'
 import { CheckIcon, CopyIcon } from 'lucide-react'
 
-export function CopyButton({ text, className = '' }) {
+interface CopyButtonProps {
+  text: string;
+  className?: string;
+}
+
+export function CopyButton({ text, className = '' }: CopyButtonProps) {
   const [copied, setCopied] = useState(false)
 
   const handleCopy = async () => {

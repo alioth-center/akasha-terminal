@@ -1,4 +1,4 @@
-import React, { FC, useState } from 'react'
+import { FC, useState } from 'react'
 import {
   Box,
   Paper,
@@ -10,8 +10,9 @@ import {
   IconButton,
   Tooltip,
   InputAdornment,
+  Divider,
 } from '@mui/material'
-import { Send } from '@mui/icons-material'
+import { Send, Delete, Save, Share } from '@mui/icons-material'
 
 const InputArea: FC = () => {
   const [model, setModel] = useState('gpt-4')
@@ -29,11 +30,10 @@ const InputArea: FC = () => {
         borderRadius: 0,
       }}
     >
+      <Divider />
       <Box 
         sx={{ 
           p: 2, 
-          borderBottom: '1px solid', 
-          borderColor: 'divider',
           display: 'flex',
           alignItems: 'center',
           gap: 2,
@@ -78,6 +78,26 @@ const InputArea: FC = () => {
             <MenuItem value={4000}>4000</MenuItem>
           </Select>
         </FormControl>
+
+        <Box sx={{ flex: 1 }} />
+
+        <Box sx={{ display: 'flex', gap: 1 }}>
+          <Tooltip title="清除对话">
+            <IconButton size="small" onClick={() => {/* TODO */}}>
+              <Delete />
+            </IconButton>
+          </Tooltip>
+          <Tooltip title="保存对话">
+            <IconButton size="small" onClick={() => {/* TODO */}}>
+              <Save />
+            </IconButton>
+          </Tooltip>
+          <Tooltip title="分享对话">
+            <IconButton size="small" onClick={() => {/* TODO */}}>
+              <Share />
+            </IconButton>
+          </Tooltip>
+        </Box>
       </Box>
       
       <Box 
@@ -89,55 +109,6 @@ const InputArea: FC = () => {
           minHeight: '150px',
         }}
       >
-        {/* 可拖动的分隔线 */}
-        <Box
-          sx={{
-            position: 'absolute',
-            top: -2,
-            left: 0,
-            right: 0,
-            height: '4px',
-            backgroundColor: 'divider',
-            cursor: 'row-resize',
-            '&:hover': {
-              backgroundColor: 'primary.main',
-            },
-            zIndex: 1,
-            '&::after': {
-              content: '""',
-              position: 'absolute',
-              left: 0,
-              right: 0,
-              top: -10,
-              bottom: -10,
-              zIndex: 1,
-            },
-          }}
-          onMouseDown={(e) => {
-            e.preventDefault();
-            const container = e.currentTarget.parentElement;
-            const startY = e.clientY;
-            const startHeight = container?.getBoundingClientRect().height || 0;
-            
-            const handleMouseMove = (moveEvent: MouseEvent) => {
-              moveEvent.preventDefault();
-              if (container) {
-                const delta = startY - moveEvent.clientY;
-                const newHeight = Math.max(150, startHeight + delta);
-                container.style.height = `${newHeight}px`;
-              }
-            };
-
-            const handleMouseUp = () => {
-              document.removeEventListener('mousemove', handleMouseMove);
-              document.removeEventListener('mouseup', handleMouseUp);
-            };
-
-            document.addEventListener('mousemove', handleMouseMove);
-            document.addEventListener('mouseup', handleMouseUp);
-          }}
-        />
-
         <TextField
           multiline
           value={input}
@@ -165,25 +136,27 @@ const InputArea: FC = () => {
             endAdornment: (
               <InputAdornment position="end" sx={{ alignSelf: 'flex-end', position: 'absolute', right: 16, bottom: 16 }}>
                 <Tooltip title="发送">
-                  <IconButton
-                    color="primary"
-                    size="large"
-                    disabled={!input.trim()}
-                    onClick={() => {/* TODO: 实现发送逻辑 */}}
-                    sx={{
-                      backgroundColor: 'primary.main',
-                      color: 'white',
-                      '&:hover': {
-                        backgroundColor: 'primary.dark',
-                      },
-                      '&.Mui-disabled': {
-                        backgroundColor: 'action.disabledBackground',
-                        color: 'action.disabled',
-                      },
-                    }}
-                  >
-                    <Send />
-                  </IconButton>
+                  <Box component="span">
+                    <IconButton
+                      color="primary"
+                      size="large"
+                      disabled={!input.trim()}
+                      onClick={() => {/* TODO: 实现发送逻辑 */}}
+                      sx={{
+                        backgroundColor: 'primary.main',
+                        color: 'white',
+                        '&:hover': {
+                          backgroundColor: 'primary.dark',
+                        },
+                        '&.Mui-disabled': {
+                          backgroundColor: 'action.disabledBackground',
+                          color: 'action.disabled',
+                        },
+                      }}
+                    >
+                      <Send />
+                    </IconButton>
+                  </Box>
                 </Tooltip>
               </InputAdornment>
             ),

@@ -1,4 +1,4 @@
-import React, { FC } from 'react'
+import { FC } from 'react'
 import { Box, Paper, Typography, IconButton, Tooltip } from '@mui/material'
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
@@ -273,6 +273,7 @@ const ChatArea: FC = () => {
               display: 'flex',
               justifyContent: message.role === 'user' ? 'flex-end' : 'flex-start',
               mb: 2,
+              position: 'relative',
             }}
           >
             <Box
@@ -282,11 +283,31 @@ const ChatArea: FC = () => {
                 borderRadius: 2,
                 p: 2,
                 color: '#fff',
+                position: 'relative',
               }}
             >
+              <Tooltip title="复制全部内容">
+                <IconButton
+                  size="small"
+                  onClick={() => copyToClipboard(message.content)}
+                  sx={{
+                    position: 'absolute',
+                    right: 8,
+                    top: 8,
+                    color: 'rgba(255, 255, 255, 0.7)',
+                    '&:hover': {
+                      color: 'white',
+                      backgroundColor: 'rgba(255, 255, 255, 0.1)',
+                    },
+                  }}
+                >
+                  <ContentCopy fontSize="small" />
+                </IconButton>
+              </Tooltip>
               <Typography
                 component="div"
                 sx={{
+                  pr: 4,
                   '& p': { m: 0 },
                   '& h1': { 
                     fontSize: '1.5rem',
