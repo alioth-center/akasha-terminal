@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import React from 'react'
 import { ThemeProvider, CssBaseline, createTheme } from '@mui/material'
 import { Panel, PanelGroup, PanelResizeHandle } from 'react-resizable-panels'
 import WorkflowList from './components/WorkflowList'
@@ -13,6 +13,17 @@ const theme = createTheme({
     background: {
       default: '#1e1e1e',
       paper: '#252525',
+    },
+  },
+  components: {
+    MuiCssBaseline: {
+      styleOverrides: {
+        body: {
+          margin: 0,
+          padding: 0,
+          overflow: 'hidden',
+        },
+      },
     },
   },
 })
