@@ -1,5 +1,6 @@
 import { ThemeProvider, CssBaseline, createTheme } from '@mui/material'
 import { Panel, PanelGroup, PanelResizeHandle } from 'react-resizable-panels'
+import Sidebar from './components/Sidebar'
 import WorkflowList from './components/WorkflowList'
 import ChatArea from './components/ChatArea'
 import InputArea from './components/InputArea'
@@ -42,6 +43,7 @@ function App() {
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <div className="app-container">
+        <Sidebar />
         <PanelGroup direction="horizontal">
           {/* 左侧工作流列表 */}
           <Panel defaultSize={20} minSize={15}>
