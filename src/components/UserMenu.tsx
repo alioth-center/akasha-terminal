@@ -51,8 +51,8 @@ const UserMenu: FC<UserMenuProps> = ({
       open={open}
       onClose={onClose}
       onClick={onClose}
-      transformOrigin={{ horizontal: 'right', vertical: 'top' }}
-      anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
+      transformOrigin={{ horizontal: 'center', vertical: 'top' }}
+      anchorOrigin={{ horizontal: 'center', vertical: 'bottom' }}
       PaperProps={{
         elevation: 0,
         sx: {
@@ -73,11 +73,11 @@ const UserMenu: FC<UserMenuProps> = ({
             display: 'block',
             position: 'absolute',
             top: 0,
-            right: 14,
+            left: '7%',
             width: 10,
             height: 10,
             bgcolor: 'background.paper',
-            transform: 'translateY(-50%) rotate(45deg)',
+            transform: 'translate(-50%, -50%) rotate(45deg)',
             zIndex: 0,
           },
         },

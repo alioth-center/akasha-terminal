@@ -39,6 +39,14 @@ const darkTheme = createTheme({
         },
       },
     },
+    MuiMenu: {
+      styleOverrides: {
+        list: {
+          paddingTop: 0,
+          paddingBottom: 0,
+        },
+      },
+    },
   },
 });
 
