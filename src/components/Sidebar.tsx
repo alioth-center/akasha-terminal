@@ -1,4 +1,4 @@
-import { FC } from 'react'
+import { FC, useState } from 'react'
 import {
   Box,
   Avatar,
@@ -14,13 +14,36 @@ import {
   ChatBubble as ChatBubbleIcon,
   Article as ArticleIcon,
 } from '@mui/icons-material'
+import UserMenu from './UserMenu'
 
 interface SidebarProps {
   displayMode: 'bubble' | 'document'
   onDisplayModeChange: (mode: 'bubble' | 'document') => void
+  currentView: 'chat' | 'settings'
+  onViewChange: (view: 'chat' | 'settings') => void
 }
 
-const Sidebar: FC<SidebarProps> = ({ displayMode, onDisplayModeChange }) => {
+const Sidebar: FC<SidebarProps> = ({
+  displayMode,
+  onDisplayModeChange,
+  currentView,
+  onViewChange,
+}) => {
+  const [userMenuAnchor, setUserMenuAnchor] = useState<null | HTMLElement>(null);
+
+  const handleUserMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
+    setUserMenuAnchor(event.currentTarget);
+  };
+
+  const handleUserMenuClose = () => {
+    setUserMenuAnchor(null);
+  };
+
+  const handleSettingsClick = () => {
+    onViewChange('settings');
+    handleUserMenuClose();
+  };
+
   return (
     <Box
       sx={{
@@ -48,10 +71,26 @@ const Sidebar: FC<SidebarProps> = ({ displayMode, onDisplayModeChange }) => {
         }}
         alt="用户头像"
         src="/avatar-placeholder.png"
+        onClick={handleUserMenuOpen}
+      />
+
+      <UserMenu
+        anchorEl={userMenuAnchor}
+        open={Boolean(userMenuAnchor)}
+        onClose={handleUserMenuClose}
+        onSettingsClick={handleSettingsClick}
       />
 
       {/* 主要功能区 */}
       <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
+        <Tooltip title="聊天" placement="right">
+          <IconButton
+            onClick={() => onViewChange('chat')}
+            color={currentView === 'chat' ? 'primary' : 'default'}
+          >
+            <ChatBubbleIcon />
+          </IconButton>
+        </Tooltip>
         <Tooltip title="知识库" placement="right">
           <IconButton>
             <BookIcon />
@@ -78,13 +117,16 @@ const Sidebar: FC<SidebarProps> = ({ displayMode, onDisplayModeChange }) => {
 
       {/* 底部设置区 */}
       <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
-        <Tooltip title={displayMode === 'bubble' ? '切换到文档模式' : '切换到气泡模式'} placement="right">
+        <Tooltip title="切换显示模式" placement="right">
           <IconButton onClick={() => onDisplayModeChange(displayMode === 'bubble' ? 'document' : 'bubble')}>
-            {displayMode === 'bubble' ? <ArticleIcon /> : <ChatBubbleIcon />}
+            {displayMode === 'bubble' ? <ChatBubbleIcon /> : <ArticleIcon />}
           </IconButton>
         </Tooltip>
         <Tooltip title="设置" placement="right">
-          <IconButton>
+          <IconButton
+            onClick={() => onViewChange('settings')}
+            color={currentView === 'settings' ? 'primary' : 'default'}
+          >
             <SettingsIcon />
           </IconButton>
         </Tooltip>

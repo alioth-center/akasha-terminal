@@ -14,6 +14,7 @@ import {
   useTheme,
   useMediaQuery,
   Typography,
+  Slide,
 } from '@mui/material'
 import {
   Send,
@@ -248,167 +249,173 @@ const InputArea: FC<InputAreaProps> = ({ isFullscreen = false, onFullscreenToggl
   )
 
   return (
-    <Paper
-      sx={{
-        height: '100%',
-        display: 'flex',
-        flexDirection: 'column',
-        backgroundColor: 'background.paper',
-        borderRadius: 0,
-        position: 'relative',
-      }}
+    <Slide 
+      direction={isFullscreen ? "up" : "down"} 
+      in={true} 
+      timeout={300}
     >
-      <Box
+      <Paper
         sx={{
-          position: 'absolute',
-          top: -32,
-          right: 16,
-          display: 'flex',
-          gap: 0.5,
-          alignItems: 'center',
-          backgroundColor: 'rgba(0, 0, 0, 0.6)',
-          backdropFilter: 'blur(4px)',
-          borderTopLeftRadius: 4,
-          borderTopRightRadius: 4,
-          px: 1,
-          py: 0.5,
-        }}
-      >
-        <Typography
-          variant="caption"
-          sx={{
-            color: 'rgba(255, 255, 255, 0.7)',
-            fontSize: '0.875rem',
-            fontWeight: 500,
-          }}
-        >
-          输入区域
-        </Typography>
-        <IconButton
-          size="small"
-          onClick={() => setIsExpanded(!isExpanded)}
-          sx={{
-            p: 0.5,
-            color: 'rgba(255, 255, 255, 0.7)',
-            '&:hover': {
-              color: 'rgba(255, 255, 255, 0.9)',
-              backgroundColor: 'rgba(255, 255, 255, 0.1)',
-            },
-          }}
-        >
-          {isExpanded ? <ExpandLessIcon fontSize="small" /> : <ExpandMoreIcon fontSize="small" />}
-        </IconButton>
-      </Box>
-
-      {isExpanded && (
-        <>
-          <Divider />
-          <Box 
-            sx={{ 
-              p: 2, 
-              display: 'flex',
-              alignItems: 'center',
-              gap: 2,
-              flexWrap: 'wrap',
-            }}
-          >
-            {isSmallScreen ? renderIconControls() : renderFullControls()}
-
-            <Box sx={{ flex: 1 }} />
-
-            <Box sx={{ display: 'flex', gap: 1 }}>
-              <Tooltip title="清除对话">
-                <IconButton size="small" onClick={() => {/* TODO */}}>
-                  <Delete />
-                </IconButton>
-              </Tooltip>
-              <Tooltip title="保存对话">
-                <IconButton size="small" onClick={() => {/* TODO */}}>
-                  <Save />
-                </IconButton>
-              </Tooltip>
-              <Tooltip title="分享对话">
-                <IconButton size="small" onClick={() => {/* TODO */}}>
-                  <Share />
-                </IconButton>
-              </Tooltip>
-              <Tooltip title={isFullscreen ? "退出全屏" : "全屏编辑"}>
-                <IconButton
-                  size="small"
-                  onClick={handleFullscreenToggle}
-                >
-                  {isFullscreen ? <FullscreenExit /> : <Fullscreen />}
-                </IconButton>
-              </Tooltip>
-            </Box>
-          </Box>
-        </>
-      )}
-      
-      <Box 
-        sx={{ 
-          flex: 1,
+          height: '100%',
           display: 'flex',
           flexDirection: 'column',
+          backgroundColor: 'background.paper',
+          borderRadius: 0,
           position: 'relative',
-          minHeight: isExpanded ? '150px' : '60px',
         }}
       >
-        <TextField
-          multiline
-          value={input}
-          onChange={(e) => setInput(e.target.value)}
-          placeholder="输入你的消息..."
-          variant="standard"
+        <Box
+          sx={{
+            position: 'absolute',
+            top: -32,
+            right: 16,
+            display: 'flex',
+            gap: 0.5,
+            alignItems: 'center',
+            backgroundColor: 'rgba(0, 0, 0, 0.6)',
+            backdropFilter: 'blur(4px)',
+            borderTopLeftRadius: 4,
+            borderTopRightRadius: 4,
+            px: 1,
+            py: 0.5,
+          }}
+        >
+          <Typography
+            variant="caption"
+            sx={{
+              color: 'rgba(255, 255, 255, 0.7)',
+              fontSize: '0.875rem',
+              fontWeight: 500,
+            }}
+          >
+            输入区域
+          </Typography>
+          <IconButton
+            size="small"
+            onClick={() => setIsExpanded(!isExpanded)}
+            sx={{
+              p: 0.5,
+              color: 'rgba(255, 255, 255, 0.7)',
+              '&:hover': {
+                color: 'rgba(255, 255, 255, 0.9)',
+                backgroundColor: 'rgba(255, 255, 255, 0.1)',
+              },
+            }}
+          >
+            {isExpanded ? <ExpandLessIcon fontSize="small" /> : <ExpandMoreIcon fontSize="small" />}
+          </IconButton>
+        </Box>
+
+        {isExpanded && (
+          <>
+            <Divider />
+            <Box 
+              sx={{ 
+                p: 2, 
+                display: 'flex',
+                alignItems: 'center',
+                gap: 2,
+                flexWrap: 'wrap',
+              }}
+            >
+              {isSmallScreen ? renderIconControls() : renderFullControls()}
+
+              <Box sx={{ flex: 1 }} />
+
+              <Box sx={{ display: 'flex', gap: 1 }}>
+                <Tooltip title="清除对话">
+                  <IconButton size="small" onClick={() => {/* TODO */}}>
+                    <Delete />
+                  </IconButton>
+                </Tooltip>
+                <Tooltip title="保存对话">
+                  <IconButton size="small" onClick={() => {/* TODO */}}>
+                    <Save />
+                  </IconButton>
+                </Tooltip>
+                <Tooltip title="分享对话">
+                  <IconButton size="small" onClick={() => {/* TODO */}}>
+                    <Share />
+                  </IconButton>
+                </Tooltip>
+                <Tooltip title={isFullscreen ? "退出全屏" : "全屏编辑"}>
+                  <IconButton
+                    size="small"
+                    onClick={handleFullscreenToggle}
+                  >
+                    {isFullscreen ? <FullscreenExit /> : <Fullscreen />}
+                  </IconButton>
+                </Tooltip>
+              </Box>
+            </Box>
+          </>
+        )}
+        
+        <Box 
           sx={{ 
             flex: 1,
             display: 'flex',
-            '& .MuiInputBase-root': {
+            flexDirection: 'column',
+            position: 'relative',
+            minHeight: isExpanded ? '150px' : '60px',
+          }}
+        >
+          <TextField
+            multiline
+            value={input}
+            onChange={(e) => setInput(e.target.value)}
+            placeholder="输入你的消息..."
+            variant="standard"
+            sx={{ 
               flex: 1,
               display: 'flex',
-              padding: 2,
-              alignItems: 'flex-start',
-            },
-            '& .MuiInputBase-input': {
-              flex: 1,
-              height: '100% !important',
-              overflow: 'auto !important',
-              resize: 'none',
-            },
-          }}
-          InputProps={{
-            disableUnderline: true,
-            endAdornment: (
-              <InputAdornment position="end" sx={{ alignSelf: 'flex-end', position: 'absolute', right: 16, bottom: 16 }}>
-                <Tooltip title="发送">
-                  <Box component="span">
-                    <IconButton
-                      color="primary"
-                      size="large"
-                      disabled={!input.trim()}
-                      onClick={() => {/* TODO: 实现发送逻辑 */}}
-                      sx={{
-                        backgroundColor: 'primary.main',
-                        color: 'white',
-                        '&:hover': {
-                          backgroundColor: 'primary.dark',
-                        },
-                        '&.Mui-disabled': {
-                          backgroundColor: 'action.disabledBackground',
-                          color: 'action.disabled',
-                        },
-                      }}
-                    >
-                      <Send />
-                    </IconButton>
-                  </Box>
-                </Tooltip>
-              </InputAdornment>
-            ),
-          }}
-        />
-      </Box>
-    </Paper>
+              '& .MuiInputBase-root': {
+                flex: 1,
+                display: 'flex',
+                padding: 2,
+                alignItems: 'flex-start',
+              },
+              '& .MuiInputBase-input': {
+                flex: 1,
+                height: '100% !important',
+                overflow: 'auto !important',
+                resize: 'none',
+              },
+            }}
+            InputProps={{
+              disableUnderline: true,
+              endAdornment: (
+                <InputAdornment position="end" sx={{ alignSelf: 'flex-end', position: 'absolute', right: 16, bottom: 16 }}>
+                  <Tooltip title="发送">
+                    <Box component="span">
+                      <IconButton
+                        color="primary"
+                        size="large"
+                        disabled={!input.trim()}
+                        onClick={() => {/* TODO: 实现发送逻辑 */}}
+                        sx={{
+                          backgroundColor: 'primary.main',
+                          color: 'white',
+                          '&:hover': {
+                            backgroundColor: 'primary.dark',
+                          },
+                          '&.Mui-disabled': {
+                            backgroundColor: 'action.disabledBackground',
+                            color: 'action.disabled',
+                          },
+                        }}
+                      >
+                        <Send />
+                      </IconButton>
+                    </Box>
+                  </Tooltip>
+                </InputAdornment>
+              ),
+            }}
+          />
+        </Box>
+      </Paper>
+    </Slide>
   )
 }
 
